@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: job-radar-dashboard
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn mobile_app:app
+    healthCheckPath: /
+    envVars:
+      - key: JOB_RADAR_CONFIG_PATH
+        value: /etc/secrets/config.yaml
+      - key: JOB_RADAR_ADMIN_TOKEN
+        sync: false
+
+  - type: cron
+    name: job-radar-daily-scan
+    runtime: python
+    schedule: "30 4 * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: JOB_RADAR_CONFIG_PATH
+        value: /etc/secrets/config.yaml
