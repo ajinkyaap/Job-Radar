@@ -1,0 +1,19 @@
+name: Daily Job Radar
+on:
+  schedule:
+    - cron: '30 4 * * *'
+  workflow_dispatch:
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt
+      - name: Write runtime secrets
+        shell: bash
+        run: |
+          printf '%s' '${{ secrets.JOB_RADAR_CONFIG_B64 }}' | base64 --decode > config.yaml
+          printf '%s' '${{ secrets.JOB_RADAR_CREDENTIALS_B64 }}' | base64 --decode > credentials.json
+      - run: python main.py

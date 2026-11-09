@@ -1,0 +1,48 @@
+# Copy to config.yaml and provide real credentials locally. Do not commit config.yaml.
+minimum_score: 72
+minimum_remote_score: 72
+email_minimum_per_section: 10
+email_maximum_per_section: 25
+email_top_jobs_limit: 25
+
+matching:
+  experience_years: 4.5
+  max_job_age_days: 21
+  minimum_skill_groups: 3
+  preferred_locations: [remote, india, pune, bengaluru, bangalore, hyderabad]
+  acceptable_locations: [remote, india, worldwide, global, pune, bengaluru, bangalore, hyderabad]
+  target_title_terms:
+    - software engineer
+    - software developer
+    - backend engineer
+    - backend developer
+    - java engineer
+    - java developer
+    - platform engineer
+    - application engineer
+    - microservices engineer
+    - site reliability engineer
+    - sre
+  excluded_title_terms:
+    - intern
+    - internship
+    - new grad
+    - graduate
+    - student
+    - architect
+    - director
+    - vice president
+    - head of
+    - principal
+    - staff engineer
+    - manager
+  priority_companies: [Databricks, Stripe, MongoDB, Cloudflare, Coinbase, Reddit, Elastic, Okta, Affirm, Lyft]
+
+email:
+  sender: your-address@example.com
+  password: gmail-app-password
+  receiver: your-address@example.com
+
+google_sheet:
+  workbook_name: Job Radar
+  credentials_file: credentials.json

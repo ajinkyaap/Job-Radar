@@ -1,0 +1,213 @@
+companies:
+
+  # Tier 1
+  - databricks
+  - stripe
+  - mongodb
+  - coinbase
+  - cloudflare
+  - okta
+  - affirm
+  - elastic
+  - reddit
+  - lyft
+
+  # Fintech
+  - airwallex
+  - brex
+  - plaid
+  - checkout
+  - wise
+  - revolut
+  - marqeta
+  - ripple
+
+  # Infrastructure
+  - redis
+  - confluent
+  - grafana
+  - newrelic
+  - launchdarkly
+  - zapier
+  - miro
+  - canva
+
+  # AI
+  - openai
+  - anthropic
+  - perplexity
+  - cursor
+  - cohere
+  - scale
+  - replit
+  - runpod
+
+  # Product
+  - notion
+  - linear
+  - figma
+  - airtable
+  - slack
+  - dropbox
+  - github
+  - atlassian
+
+  # Banking
+  - visa
+  - mastercard
+  - americanexpress
+  - jpmorganchase
+  - goldmansachs
+  - morganstanley
+# companies_expansion.yaml
+  # Infrastructure / Databases
+
+  - redislabs
+  - cockroachlabs
+  - yugabyte
+  - timescale
+  - starburst
+  - singleStore
+  - datadog
+  - sentry
+  - fastly
+  - digitalocean
+  - vercel
+  - netlify
+  - render
+  - flyio
+  - temporal
+  - dbt
+  - clickhouse
+
+  # Fintech
+
+  - adyen
+  - robinhood
+  - chime
+  - sofi
+  - ramp
+  - mercury
+  - melio
+  - navyfederalcreditunion
+  - remitly
+  - payoneer
+  - klarna
+  - sumup
+  - mollie
+
+  # Product / SaaS
+
+  - asana
+  - box
+  - loom
+  - lucidhq
+  - monday
+  - mondaycom
+  - typeform
+  - intercom
+  - algolia
+  - segment
+  - amplitude
+  - mixpanel
+  - mondaydotcom
+  - coda
+  - grammarly
+
+  # AI
+
+  - cursor
+  - lovable
+  - elevenlabs
+  - together
+  - modal
+  - huggingface
+  - scaleai
+  - midjourney
+  - writer
+  - character
+  - glean
+  - workos
+
+  # DevTools
+
+  - posthog
+  - planetscale
+  - railway
+  - buildkite
+  - circleci
+  - gitpod
+  - sourcegraph
+  - pulumi
+  - dagger
+  - envoy
+  - konghq
+  - aiven
+
+  # Security
+
+  - crowdstrike
+  - wiz
+  - sentryio
+  - tenable
+  - huntress
+  - sysdig
+  - snyk
+  - arthurai
+
+  # Marketplace
+
+  - airbnb
+  - doordash
+  - instacart
+  - etsy
+  - spotify
+  - pinterest
+  - discord
+  - snap
+
+  # Gaming
+
+  - riotgames
+  - epicgames
+  - roblox
+  - unity
+  - discord
+
+  # High Paying Enterprise
+
+  - snowflake
+  - palantir
+  - nvidia
+  - tesla
+  - waymo
+  - cruise
+  - serviceNow
+  - splunk
+   - vmware
+
+  # India Friendly / Hybrid
+
+  - browserstack
+  - razorpay
+  - postman
+  - freshworks
+  - chargebee
+  - zoho
+  - whatfix
+  - innovaccer
+  - hackerRank
+  - keka
+
+  # Emerging Tech
+
+  - neon
+  - supabase
+  - clerk
+  - stream
+  - workato
+  - astronomer
+  - prophecy
+  - weaviate
+  - qdrant
+  - pinecone

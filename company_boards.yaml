@@ -1,0 +1,235 @@
+# JobPilot company board registry — corrected ATS placement for supplied target list
+# Corrected placements are based on public job-board URLs / ATS registry evidence.
+# Not every company in the source list has been independently endpoint-tested in this session.
+# Rippling uses its own ATS board; Netflix uses its own careers platform. They are not Lever entries.
+# PostHog, Sonar, Canva, ROKT and Zapier are retained only where their provider is independently confirmed;
+# otherwise verify their live careers application URL before assigning a provider.
+# Greenhouse API: https://boards-api.greenhouse.io/v1/boards/<slug>/jobs?content=true
+# Lever API: https://api.lever.co/v0/postings/<slug>?mode=json
+# Ashby API: https://api.ashbyhq.com/posting-api/job-board/<slug>
+greenhouse:
+  - affirm
+  - reddit
+  - lyft
+  - coinbase
+  - newrelic
+  - dscout
+  - mongodb
+  - redwoodsoftware
+  - cognite
+  - neweratech
+  - elastic
+  - appsflyer
+  - stripe
+  - okta
+  - cloudflare
+  - appian
+  - betterment
+  - databricks
+  - calendly
+  - bitgo
+  - contentful
+  - coursera
+  - abnormalsecurity
+  - chainguard
+  - expel
+  - anthropic
+  - duolingo
+  - faire
+  - honeycomb
+  - gusto
+  - lattice
+  - jamf
+  - modernhealth
+  - flexport
+  - pendo
+  - nuro
+  - pagerduty
+  - canonical
+  - block
+  - klaviyo
+  - smartsheet
+  - sumologic
+  - qualtrics
+  - udemy
+  - rubrik
+  - twilio
+  - toast
+  - samsara
+  - verkada
+  - figma
+  - ScaleAI
+  - zscaler
+
+lever:
+  - spotify
+  - sysdig
+  - neon
+  # - drivetrain
+  # - boardintelligence
+  # - levelai
+  # - gohighlevel
+  # - safe
+  # - Onehouse
+  # - ada
+  # - adobe
+  # - aircall
+  # - airship
+  # - alloy
+  # - altana
+  # - anchore
+  # - appcues
+  # - appdirect
+  # - appfolio
+  # - arcticwolf
+  # - ashby
+  # - attentive
+  # - aurora
+  # - auth0
+  # - avidxchange
+  # - bamboohr
+  # - beamery
+  # - bench
+  # - bigcommerce
+  # - bitwarden
+  # - bolt
+  # - braze
+  # - brightcove
+  # - brightflag
+  # - calix
+  # - captivateiq
+  # - carto
+  # - checkr
+  # - churnzero
+  # - circuit
+  # - cloudbees
+  # - cloudinary
+  # - cloudsmith
+  # - collibra
+  # - couchbase
+  # - coveo
+  # - crossbeam
+  # - cyberark
+  # - cyberhaven
+  # - cyera
+  # - datarobot
+  # - drata
+  # - drift
+  # - druva
+  # - duo
+  # - e2open
+  # - eightfold
+  # - enfusion
+  # - everlaw
+  # - exabeam
+  # - fivetran
+  # - front
+  # - gainsight
+  # - gem
+  # - getaround
+  # - gocardless
+  # - goodrx
+  # - greenhouse
+  # - hackerone
+  # - highspot
+  # - hightouch
+  # - hirevue
+  # - hometap
+  # - hopin
+  # - huge
+  # - impinj
+  # - invision
+  # - iterable
+  # - jellyfish
+  # - jumpcloud
+  # - kandji
+  # - kaseya
+  # - kong
+  # - lever
+  # - logrocket
+  # - looker
+  # - mattermost
+  # - medallia
+  # - motive
+  # - natera
+  # - nexthink
+  # - nordsecurity
+  # - nourish
+  # - outreach
+  # - overjet
+  # - perforce
+  # - personio
+  # - pleo
+  # - recharge
+  # - recurly
+  # - salsify
+  # - squarespace
+  # - stitchfix
+  # - tripactions
+  # - trulioo
+  # - turo
+  # - vanta
+  # - veeva
+  # - veritone
+  # - virta
+  # - walkme
+  # - weave
+  # - whatnot
+  # - yext
+  # - zeta
+
+ashby:
+  - mem0
+  - gamma
+  - sardine
+  - e2b
+  - base-power
+  - freehand
+  - secfix
+  - airbyte
+  - baseten
+  - cerebras
+  - close
+  - cognition
+  - conductor
+  - dandy
+  - docker
+  - fathom
+  - found
+  - hex
+  - insitro
+  - krea
+  - materialize
+  - motherduck
+  - omni
+  - orb
+  - parallel
+  - plane
+  - poolside
+  - rivet
+  - runway
+  - sierra
+  - sift
+  - slope
+  - suno
+  - plaid
+  - notion
+  - cursor
+
+# Not represented in the three ATS groups above; do not ingest as Lever:
+# rippling — uses Rippling ATS (separate provider / endpoint)
+# netflix — uses its own Netflix jobs platform
+# Needs a fresh official apply-link check before assigning a provider:
+# posthog, sonar, canva, rokt, zapier
+
+priority_companies:
+  - JPMorgan Chase
+  - Goldman Sachs
+  - Morgan Stanley
+  - HSBC
+  - American Express
+  - Visa
+  - Mastercard
+  - Stripe
+  - Coinbase
+  - Databricks

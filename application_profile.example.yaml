@@ -1,0 +1,29 @@
+# Copy this file to application_profile.yaml and complete it once.
+# application_profile.yaml is intentionally ignored by Git.
+identity:
+  first_name: Ajinkya
+  last_name: Patankar
+  email: your-email@example.com
+  phone: "+91XXXXXXXXXX"
+  city: Pune
+  country: India
+  linkedin_url: ""
+  website_url: ""
+
+# Use an absolute Windows path.
+resume_file: C:\Users\shraj\Downloads\Ajinkya Patankar Resume New.pdf
+
+# These answers are used only when a form asks the equivalent question.
+# Country-aware work eligibility. These answers are selected only for common
+# work-authorisation and sponsorship questions. Review unknown question wording.
+eligibility:
+  india:
+    work_authorization: "Yes"
+    requires_sponsorship: "No"
+  other_countries:
+    work_authorization: "No"
+    requires_sponsorship: "Yes"
+notice_period: ""
+
+# Add only answers you want reused. Unknown required questions cause a safe pause.
+custom_answers: {}

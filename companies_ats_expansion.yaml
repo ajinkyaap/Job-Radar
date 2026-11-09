@@ -1,0 +1,68 @@
+companies:
+
+  # AI
+  - openai
+  - anthropic
+  - perplexity
+  - cohere
+  - replit
+  - cursor
+  - runpod
+  - modal
+  - elevenlabs
+  - writer
+  - character
+  - workos
+  - posthog
+
+  # Fintech
+  - airwallex
+  - plaid
+  - ramp
+  - mercury
+  - adyen
+  - robinhood
+  - chime
+  - wise
+  - revolut
+  - klarna
+
+  # Infra
+  - redis
+  - confluent
+  - clickhouse
+  - temporal
+  - datadog
+  - fastly
+  - vercel
+  - planetscale
+  - yugabyte
+  - cockroachlabs
+
+  # Product
+  - notion
+  - linear
+  - figma
+  - airtable
+  - dropbox
+  - asana
+  - intercom
+  - miro
+  - amplitude
+
+  # Security
+  - wiz
+  - snyk
+  - huntress
+  - crowdstrike
+  - sentinelone
+
+  # Premium Tech
+  - snowflake
+  - palantir
+  - spotify
+  - airbnb
+  - instacart
+  - pinterest
+  - databricks
+  - cloudflare
