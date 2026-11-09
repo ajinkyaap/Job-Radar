@@ -172,6 +172,10 @@ For periodic polling in a terminal, run `python run_radar_loop.py --interval-min
 
 The `render.yaml` Blueprint defines the dashboard web service and the daily cron scan. In Render, choose **New → Blueprint**, connect this repository, and select the `cloud` branch. Render will create both services. In each service's **Environment → Secret Files**, add `config.yaml`, `credentials.json`, and `application_profile.yaml`. Set `google_sheet.credentials_file` in the secret `config.yaml` to `/etc/secrets/credentials.json`. The Blueprint already sets `JOB_RADAR_CONFIG_PATH=/etc/secrets/config.yaml`; set a strong `JOB_RADAR_ADMIN_TOKEN` on the web service. Add the same secret files to the cron service. Render cron schedules use UTC, so `30 4 * * *` runs at 10:00 IST.
 
+### No-card option: Streamlit Community Cloud
+
+If a hosting provider requests a payment card, deploy `streamlit_app.py` on Streamlit Community Cloud instead. It provides a phone-friendly `streamlit.app` URL and supports app secrets. Select the repository, branch `cloud`, and file `streamlit_app.py`, then add `google_service_account` (the service-account JSON fields as TOML) and `workbook_name = "Job Radar"` in the app Secrets panel. Keep the GitHub Actions workflow for the daily 10:00 IST scan; it updates Sheets and sends email independently of the dashboard.
+
 The included `.github/workflows/daily-radar.yml` runs every day at 10:00 Asia/Kolkata (04:30 UTC) and can also be started manually. In repository secrets, add `JOB_RADAR_CONFIG_B64` and `JOB_RADAR_CREDENTIALS_B64`, containing base64-encoded versions of the local `config.yaml` and `credentials.json`. The workflow then installs dependencies, runs `main.py`, updates Sheets, and sends the digest email.
 
 Shortlists are grouped into India-based roles and remote/worldwide roles. Remote roles receive the same location score as India roles; work authorisation and sponsorship are shown separately because a remote label does not guarantee eligibility in the candidate's country.
