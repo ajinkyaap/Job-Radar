@@ -180,4 +180,6 @@ If a hosting provider requests a payment card, deploy `streamlit_app.py` on Stre
 
 The included `.github/workflows/daily-radar.yml` runs every day at 10:00 and 13:00 Asia/Kolkata (04:30 and 07:30 UTC) and can also be started manually. In repository secrets, add `JOB_RADAR_CONFIG_B64` and `JOB_RADAR_CREDENTIALS_B64`, containing base64-encoded versions of the local `config.yaml` and `credentials.json`. The workflow then installs dependencies, runs `main.py`, updates Sheets, and sends the digest email.
 
+The `ATS Board Health` workflow checks every configured Greenhouse, Lever, Ashby, and SmartRecruiters endpoint weekly and can be started manually. Review its output before retaining newly discovered boards.
+
 Shortlists are grouped into India-based roles and remote/worldwide roles. Remote roles receive the same location score as India roles; work authorisation and sponsorship are shown separately because a remote label does not guarantee eligibility in the candidate's country.
