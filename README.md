@@ -174,7 +174,7 @@ The `render.yaml` Blueprint defines the dashboard web service and the daily cron
 
 ### No-card option: Streamlit Community Cloud
 
-If a hosting provider requests a payment card, deploy `streamlit_app.py` on Streamlit Community Cloud instead. It provides a phone-friendly `streamlit.app` URL and supports app secrets. Select the repository, branch `cloud`, and file `streamlit_app.py`, then add `google_service_account` (the service-account JSON fields as TOML) and `workbook_name = "Job Radar"` in the app Secrets panel. Keep the GitHub Actions workflow for the daily 10:00 IST scan; it updates Sheets and sends email independently of the dashboard.
+If a hosting provider requests a payment card, deploy `streamlit_app.py` on Streamlit Community Cloud instead. It provides a phone-friendly `streamlit.app` URL and supports app secrets. Select the repository, branch `cloud`, and file `streamlit_app.py`, then add `google_service_account` (the service-account JSON fields as TOML), `workbook_name = "Job Radar"`, and `spreadsheet_id = "your-sheet-id"` in the app Secrets panel. Use the ID from the Google Sheets URL and share the spreadsheet with the `client_email` from `credentials.json` as an Editor. Keep the GitHub Actions workflow for the daily 10:00 IST scan; it updates Sheets and sends email independently of the dashboard.
 
 The included `.github/workflows/daily-radar.yml` runs every day at 10:00 Asia/Kolkata (04:30 UTC) and can also be started manually. In repository secrets, add `JOB_RADAR_CONFIG_B64` and `JOB_RADAR_CREDENTIALS_B64`, containing base64-encoded versions of the local `config.yaml` and `credentials.json`. The workflow then installs dependencies, runs `main.py`, updates Sheets, and sends the digest email.
 

@@ -1,6 +1,7 @@
 """Card-based mobile dashboard for Streamlit Community Cloud."""
 import streamlit as st
 import gspread
+from gspread.exceptions import APIError
 from google.oauth2.service_account import Credentials
 
 st.set_page_config(page_title="Job Radar", page_icon="🎯", layout="centered")
@@ -10,12 +11,18 @@ st.caption("Fresh opportunities matched to your profile")
 def get_rows():
     cfg = st.secrets.get("google_service_account")
     workbook = st.secrets.get("workbook_name", "Job Radar")
+    spreadsheet_id = st.secrets.get("spreadsheet_id")
     if not cfg:
         st.error("Add google_service_account and workbook_name in Streamlit Secrets.")
         st.stop()
     scopes = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
     client = gspread.authorize(Credentials.from_service_account_info(dict(cfg), scopes=scopes))
-    book = client.open(workbook)
+    try:
+        book = client.open_by_key(spreadsheet_id) if spreadsheet_id else client.open(workbook)
+    except APIError as exc:
+        st.error("Google Sheets access failed. Share the spreadsheet with the service-account email and verify spreadsheet_id in Secrets.")
+        st.code(str(exc))
+        st.stop()
     rows = []
     for ws in book.worksheets(): rows.extend(ws.get_all_records())
     return rows
