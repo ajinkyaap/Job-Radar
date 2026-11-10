@@ -184,4 +184,6 @@ The `ATS Board Health` workflow checks every configured Greenhouse, Lever, Ashby
 
 Workday support uses each employer's public CXS jobs endpoint. Add only verified entries to `company_boards.yaml` under `workday`, using the structure in `workday_boards.example.yaml`, then run `python verify_boards.py`. Workday tenant/site identifiers differ per employer, so the connector intentionally starts empty rather than guessing URLs.
 
+Google discovery is an optional supplement, not a replacement for ATS feeds. Configure `google_search` in `config.yaml` and set `GOOGLE_SEARCH_API_KEY` plus `GOOGLE_SEARCH_CX` as runtime secrets. It uses Google's Programmable Search JSON API, filters to career/job URLs, fetches the public page, and sends candidates through the same matcher. Without those secrets it safely skips discovery.
+
 Shortlists are grouped into India-based roles and remote/worldwide roles. Remote roles receive the same location score as India roles; work authorisation and sponsorship are shown separately because a remote label does not guarantee eligibility in the candidate's country.

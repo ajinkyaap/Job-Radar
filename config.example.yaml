@@ -5,6 +5,15 @@ email_minimum_per_section: 10
 email_maximum_per_section: 25
 email_top_jobs_limit: 25
 
+google_search:
+  max_results_per_query: 10
+  queries:
+    - "site:myworkdayjobs.com Java backend engineer India"
+    - "site:jobs.lever.co Java backend engineer India"
+    - "site:boards.greenhouse.io Java backend engineer India"
+    - "site:jobs.ashbyhq.com Java backend engineer India"
+    - "site:careers.smartrecruiters.com Java backend engineer India"
+
 matching:
   experience_years: 4.5
   max_job_age_days: 21

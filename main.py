@@ -5,6 +5,7 @@ from ats.lever import fetch_lever_jobs
 from ats.ashby import fetch_ashby_jobs
 from ats.smartrecruiters import fetch_smartrecruiters_jobs
 from ats.workday import fetch_workday_jobs
+from ats.google_search import fetch_google_jobs
 
 from matcher import calculate
 
@@ -294,6 +295,7 @@ def collect_jobs():
     )
     smartrecruiters_companies = BOARDS.get("smartrecruiters", [])
     workday_boards = BOARDS.get("workday", [])
+    google_config = CONFIG.get("google_search", {})
 
     print(
         "[INFO] "
@@ -326,6 +328,11 @@ def collect_jobs():
         jobs.extend(fetch_workday_jobs(workday_boards))
     except Exception as ex:
         print(f"[ERROR] Workday fetch failed: {ex}")
+    print("[INFO] Fetching Google discovery results...")
+    try:
+        jobs.extend(fetch_google_jobs(google_config.get("queries", []), google_config.get("max_results_per_query", 10)))
+    except Exception as ex:
+        print(f"[ERROR] Google discovery failed: {ex}")
     unique_jobs = {}
 
     for job in jobs:
