@@ -46,8 +46,8 @@ def fetch_organization_jobs(
                     )
                 )
 
-        except Exception:
-            pass
+        except Exception as ex:
+            print(f"Ashby Error {organization}: {ex}")
 
     return jobs
 
