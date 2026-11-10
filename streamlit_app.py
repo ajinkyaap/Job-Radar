@@ -39,6 +39,8 @@ rows.sort(key=lambda r: (-number(r.get("Match Score", 0), 0), number(r.get("Days
 india_terms = ("india", "pune", "mumbai", "bengaluru", "bangalore", "hyderabad")
 india = [r for r in rows if any(x in str(r.get("Location", "")).lower() for x in india_terms)][:25]
 remote = [r for r in rows if r not in india][:25]
+apac = [r for r in remote if any(x in str(r.get("Location", "")).lower() for x in ("apac", "asia pacific", "asia-pacific"))][:25]
+remote = [r for r in remote if r not in apac][:25]
 
 def show(title, items):
     st.subheader(f"{title} ({len(items)})")
@@ -53,3 +55,4 @@ def show(title, items):
 
 show("🇮🇳 India opportunities", india)
 show("🌍 Remote / worldwide opportunities", remote)
+show("🌏 APAC opportunities (verify eligibility)", apac)

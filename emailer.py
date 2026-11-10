@@ -29,6 +29,7 @@ def create_email_html(jobs):
     """Create a concise shortlist grouped by India and remote/worldwide roles."""
     india_cards = []
     remote_cards = []
+    apac_cards = []
     for job in jobs:
         skills = ", ".join(job.matched_skills or []) or "Review job description"
         role_type = getattr(job, "role_type", "") or ("Remote" if job.remote else "Role")
@@ -52,12 +53,20 @@ def create_email_html(jobs):
         </table>
         """
         india_terms = ("india", "pune", "mumbai", "bengaluru", "bangalore", "hyderabad")
-        (india_cards if any(term in (job.location or "").lower() for term in india_terms) else remote_cards).append(card)
+        location = (job.location or "").lower()
+        if any(term in location for term in india_terms):
+            india_cards.append(card)
+        elif any(term in location for term in ("apac", "asia pacific", "asia-pacific")):
+            apac_cards.append(card)
+        else:
+            remote_cards.append(card)
     sections = []
     if india_cards:
         sections.append("<h2 style='color:#1d4ed8;margin:24px 0 8px'>🇮🇳 India opportunities <span style='font-size:13px;color:#64748b;font-weight:normal'>({})</span></h2>".format(len(india_cards)) + "".join(india_cards))
     if remote_cards:
         sections.append("<h2 style='color:#1d4ed8;margin:24px 0 8px'>🌍 Remote / worldwide opportunities <span style='font-size:13px;color:#64748b;font-weight:normal'>({})</span></h2><p style='color:#64748b;font-size:13px'>Remote availability can still be country-restricted.</p>".format(len(remote_cards)) + "".join(remote_cards))
+    if apac_cards:
+        sections.append("<h2 style='color:#a16207;margin:24px 0 8px'>🌏 APAC opportunities <span style='font-size:13px;color:#64748b;font-weight:normal'>({})</span></h2><p style='color:#92400e;font-size:13px'>APAC can include India but may be restricted to selected countries; verify eligibility.</p>".format(len(apac_cards)) + "".join(apac_cards))
     return """<html><body style="margin:0;background:#eef4ff;font-family:Arial,sans-serif;color:#1e293b">
       <div style="max-width:760px;margin:0 auto;padding:28px 18px">
       <div style="background:linear-gradient(135deg,#172554,#2563eb);border-radius:14px;padding:24px;color:#fff">

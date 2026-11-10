@@ -10,7 +10,7 @@ matching:
   max_job_age_days: 21
   minimum_skill_groups: 3
   preferred_locations: [remote, india, pune, bengaluru, bangalore, hyderabad]
-  acceptable_locations: [remote, india, worldwide, global, pune, bengaluru, bangalore, hyderabad]
+  acceptable_locations: [remote, india, worldwide, global, apac, asia pacific, asia-pacific, pune, bengaluru, bangalore, hyderabad]
   target_title_terms:
     - software engineer
     - software developer

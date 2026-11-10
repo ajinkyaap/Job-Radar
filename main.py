@@ -437,15 +437,18 @@ def main():
         job for job in scored_jobs
         if any(term in (job.location or "").lower() for term in india_terms)
     ]
-    remote_jobs = [job for job in scored_jobs if job not in india_jobs]
+    apac_jobs = [job for job in scored_jobs if "apac" in (job.location or "").lower() or "asia pacific" in (job.location or "").lower() or "asia-pacific" in (job.location or "").lower()]
+    remote_jobs = [job for job in scored_jobs if job not in india_jobs and job not in apac_jobs]
     section_limit = CONFIG.get("email_maximum_per_section", 25)
-    email_jobs = india_jobs[:section_limit] + remote_jobs[:section_limit]
+    email_jobs = india_jobs[:section_limit] + remote_jobs[:section_limit] + apac_jobs[:section_limit]
 
     minimum_section = CONFIG.get("email_minimum_per_section", 10)
     if len(india_jobs) < minimum_section:
         print(f"[WARNING] Only {len(india_jobs)} qualifying India jobs; target is {minimum_section}")
     if len(remote_jobs) < minimum_section:
         print(f"[WARNING] Only {len(remote_jobs)} qualifying remote jobs; target is {minimum_section}")
+    if len(apac_jobs) < minimum_section:
+        print(f"[INFO] Only {len(apac_jobs)} qualifying APAC jobs; this section is optional")
 
     if email_jobs:
 

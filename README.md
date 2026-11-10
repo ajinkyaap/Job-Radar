@@ -160,7 +160,7 @@ python send_shortlist.py --minimum-score 90 --limit 25
 
 The email deduplicates apply links, excludes `EXPIRED` and `APPLIED` rows, and sends a concise digest grouped into India-based and remote/worldwide sections with score, location, matched skills, age, and a direct application link. It intentionally omits the application checklist; eligibility and sponsorship still need to be verified on the employer form.
 
-Remote roles are accepted only when explicitly labelled `Remote`, `Remote - India`, `Worldwide`, `Global`, `Anywhere`, or `Work from anywhere`. Country and region qualifiers such as `Remote - USA`, `Remote - EMEA`, or `Remote - Europe` are excluded. India-based non-remote roles remain eligible.
+Remote roles are accepted only when explicitly labelled `Remote`, `Remote - India`, `Worldwide`, `Global`, `Anywhere`, or `Work from anywhere`. Country qualifiers remain excluded. APAC roles are shown in a separate lower-confidence section because APAC may include India but can also be restricted to other countries. India-based non-remote roles remain eligible.
 
 ## Continuous scanning and analytics
 

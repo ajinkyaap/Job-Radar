@@ -24,6 +24,7 @@ INDIA_LOCATION_TERMS = (
     "ahmedabad", "kochi", "indore",
 )
 WORLDWIDE_REMOTE_TERMS = ("worldwide", "global", "anywhere", "distributed", "work from anywhere")
+APAC_TERMS = ("apac", "asia pacific", "asia-pacific")
 REMOTE_TERMS = ("remote", "remote-first", "work from home", "work remotely")
 COUNTRY_TERMS = (
     "us", "usa", "united states", "canada", "uk", "united kingdom", "ireland",
@@ -44,6 +45,8 @@ def _remote_is_country_restricted(location: str) -> bool:
     if not any(term in location for term in REMOTE_TERMS):
         return False
     if any(term in location for term in WORLDWIDE_REMOTE_TERMS):
+        return False
+    if any(term in location for term in APAC_TERMS):
         return False
     # Bare Remote and Remote - India are allowed; any other qualifier is
     # treated as a geographic restriction (including EMEA/Europe/APAC).
@@ -74,6 +77,8 @@ def _location_score(location: str) -> float:
         return 100
     if any(term in location for term in WORLDWIDE_REMOTE_TERMS):
         return 100
+    if any(term in location for term in APAC_TERMS):
+        return 65
     if any(term in location for term in REMOTE_TERMS):
         return 100
     return 20
