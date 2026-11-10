@@ -1,0 +1,3 @@
+# Copy validated entries into workday_boards.yaml.
+# host/tenant/site must be taken from the employer's official myworkdayjobs.com URL.
+workday: []

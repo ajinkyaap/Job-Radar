@@ -28,6 +28,17 @@ def check(provider: str, board: str) -> tuple[str, str, int | None, str]:
         return provider, board, None, str(error)
 
 
+def check_workday(board: dict) -> tuple[str, str, int | None, str]:
+    import requests
+    name = board.get("company", "unknown")
+    url = f"https://{board['host']}/wday/cxs/{board['tenant']}/{board['site']}/jobs"
+    try:
+        response = requests.post(url, json={"appliedFacets": {}, "limit": 1, "offset": 0, "searchText": ""}, timeout=15)
+        return "workday", name, response.status_code, "ok" if response.ok else response.reason
+    except requests.RequestException as error:
+        return "workday", name, None, str(error)
+
+
 def main() -> None:
     boards = load_yaml("company_boards.yaml")
     requests_to_check = [
@@ -35,9 +46,11 @@ def main() -> None:
         for provider in URLS
         for board in boards.get(provider, [])
     ]
+    workday_boards = boards.get("workday", [])
     healthy = 0
     with ThreadPoolExecutor(max_workers=10) as executor:
         futures = [executor.submit(check, provider, board) for provider, board in requests_to_check]
+        futures += [executor.submit(check_workday, board) for board in workday_boards]
         for future in as_completed(futures):
             provider, board, status, detail = future.result()
             if status == 200:

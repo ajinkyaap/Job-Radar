@@ -4,6 +4,7 @@ from ats.greenhouse import fetch_all_jobs
 from ats.lever import fetch_lever_jobs
 from ats.ashby import fetch_ashby_jobs
 from ats.smartrecruiters import fetch_smartrecruiters_jobs
+from ats.workday import fetch_workday_jobs
 
 from matcher import calculate
 
@@ -292,6 +293,7 @@ def collect_jobs():
         )
     )
     smartrecruiters_companies = BOARDS.get("smartrecruiters", [])
+    workday_boards = BOARDS.get("workday", [])
 
     print(
         "[INFO] "
@@ -319,6 +321,11 @@ def collect_jobs():
         jobs.extend(fetch_smartrecruiters_jobs(smartrecruiters_companies))
     except Exception as ex:
         print(f"[ERROR] SmartRecruiters fetch failed: {ex}")
+    print("[INFO] Fetching Workday jobs...")
+    try:
+        jobs.extend(fetch_workday_jobs(workday_boards))
+    except Exception as ex:
+        print(f"[ERROR] Workday fetch failed: {ex}")
     unique_jobs = {}
 
     for job in jobs:

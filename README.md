@@ -182,4 +182,6 @@ The included `.github/workflows/daily-radar.yml` runs every day at 10:00 and 13:
 
 The `ATS Board Health` workflow checks every configured Greenhouse, Lever, Ashby, and SmartRecruiters endpoint weekly and can be started manually. Review its output before retaining newly discovered boards.
 
+Workday support uses each employer's public CXS jobs endpoint. Add only verified entries to `company_boards.yaml` under `workday`, using the structure in `workday_boards.example.yaml`, then run `python verify_boards.py`. Workday tenant/site identifiers differ per employer, so the connector intentionally starts empty rather than guessing URLs.
+
 Shortlists are grouped into India-based roles and remote/worldwide roles. Remote roles receive the same location score as India roles; work authorisation and sponsorship are shown separately because a remote label does not guarantee eligibility in the candidate's country.
