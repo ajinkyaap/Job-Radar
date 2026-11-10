@@ -93,7 +93,7 @@ def calculate(job: Job, profile: dict) -> Job:
     if job.days_old > profile["max_job_age_days"]:
         return _reject(job)
 
-    if location and not _contains_any(location, profile["acceptable_locations"]):
+    if location and not (_contains_any(location, profile["acceptable_locations"]) or any(term in location for term in APAC_TERMS)):
         return _reject(job)
 
     if _remote_is_country_restricted(location) and not _contains_any(location, INDIA_LOCATION_TERMS):
