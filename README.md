@@ -160,6 +160,8 @@ python send_shortlist.py --minimum-score 90 --limit 25
 
 The email deduplicates apply links, excludes `EXPIRED` and `APPLIED` rows, and sends a concise digest grouped into India-based and remote/worldwide sections with score, location, matched skills, age, and a direct application link. It intentionally omits the application checklist; eligibility and sponsorship still need to be verified on the employer form.
 
+Remote locations tied to a specific non-India country (for example, `Remote - USA`, `Remote - Canada`, or `Remote - UK`) are excluded. Worldwide, global, anywhere, and India-remote roles remain eligible.
+
 ## Continuous scanning and analytics
 
 For periodic polling in a terminal, run `python run_radar_loop.py --interval-minutes 180`. For unattended Windows operation, schedule `python main.py` in Task Scheduler. The matcher records role type and application-friction signals for ranking and email context. To review outcomes and source performance from Google Sheets, run `python analytics_report.py`; update each row's `Status` with values such as `APPLIED`, `INTERVIEW`, `SHORTLISTED`, or `REJECTED`.

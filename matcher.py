@@ -30,9 +30,22 @@ COUNTRY_TERMS = (
     "europe", "spain", "poland", "germany", "netherlands", "australia", "singapore",
 )
 
+REMOTE_COUNTRY_PATTERNS = (
+    r"\b(us|usa|united states|canada|uk|united kingdom|ireland|germany|spain|poland|netherlands|australia|singapore)\b",
+)
+
 
 def _contains_any(text: str, terms: list[str] | tuple[str, ...]) -> bool:
     return any(term.lower() in text for term in terms)
+
+
+def _remote_is_country_restricted(location: str) -> bool:
+    """Reject remote labels tied to a country outside the candidate's work region."""
+    if not any(term in location for term in REMOTE_TERMS):
+        return False
+    if any(term in location for term in WORLDWIDE_REMOTE_TERMS):
+        return False
+    return any(re.search(pattern, location) for pattern in REMOTE_COUNTRY_PATTERNS)
 
 
 def _experience_fit(text: str, target_years: float) -> float:
@@ -70,6 +83,9 @@ def calculate(job: Job, profile: dict) -> Job:
         return _reject(job)
 
     if location and not _contains_any(location, profile["acceptable_locations"]):
+        return _reject(job)
+
+    if _remote_is_country_restricted(location) and not _contains_any(location, INDIA_LOCATION_TERMS):
         return _reject(job)
 
     if _contains_any(title, profile["excluded_title_terms"]):
