@@ -29,7 +29,13 @@ def get_rows():
 
 rows = get_rows()
 rows = [r for r in rows if str(r.get("Status", "")).upper() not in {"EXPIRED", "APPLIED"}]
-rows.sort(key=lambda r: (-float(r.get("Match Score", 0) or 0), float(r.get("Days Old", 999) or 999)))
+def number(value, default):
+    try:
+        return float(str(value).replace(",", "").strip())
+    except (TypeError, ValueError):
+        return default
+
+rows.sort(key=lambda r: (-number(r.get("Match Score", 0), 0), number(r.get("Days Old", 999), 999)))
 india_terms = ("india", "pune", "mumbai", "bengaluru", "bangalore", "hyderabad")
 india = [r for r in rows if any(x in str(r.get("Location", "")).lower() for x in india_terms)][:25]
 remote = [r for r in rows if r not in india][:25]
@@ -37,7 +43,7 @@ remote = [r for r in rows if r not in india][:25]
 def show(title, items):
     st.subheader(f"{title} ({len(items)})")
     for r in items:
-        score = float(r.get("Match Score", 0) or 0)
+        score = number(r.get("Match Score", 0), 0)
         st.markdown(f"**{r.get('Role', 'Untitled role')}**  ")
         st.caption(f"{r.get('Company', '')} · {r.get('Location', 'Location not specified')} · {score:.0f}/100 · {r.get('Days Old', '?')}d old")
         skills = r.get("Matched Skills", "")
