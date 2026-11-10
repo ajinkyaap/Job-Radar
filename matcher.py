@@ -45,7 +45,13 @@ def _remote_is_country_restricted(location: str) -> bool:
         return False
     if any(term in location for term in WORLDWIDE_REMOTE_TERMS):
         return False
-    return any(re.search(pattern, location) for pattern in REMOTE_COUNTRY_PATTERNS)
+    # Bare Remote and Remote - India are allowed; any other qualifier is
+    # treated as a geographic restriction (including EMEA/Europe/APAC).
+    india = any(term in location for term in INDIA_LOCATION_TERMS)
+    bare_remote = location.strip() in {"remote", "remote-first", "work from home", "work remotely"}
+    if india or bare_remote:
+        return False
+    return True
 
 
 def _experience_fit(text: str, target_years: float) -> float:
