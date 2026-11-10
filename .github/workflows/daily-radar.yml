@@ -1,7 +1,8 @@
 name: Daily Job Radar
 on:
   schedule:
-    - cron: '30 4 * * *'
+    # 10:00 IST and 13:00 IST = 04:30 UTC and 07:30 UTC
+    - cron: '30 4,7 * * *'
   workflow_dispatch:
 jobs:
   scan:
