@@ -17,6 +17,7 @@ from sheets import (
 
 from datetime import datetime
 from datetime import UTC
+import hashlib
 
 
 CONFIG = load_yaml("config.yaml")
@@ -96,6 +97,40 @@ def get_or_create_sheet():
         )
 
     return worksheet
+
+
+def job_id(job):
+    """Stable identifier for email deduplication, preferring the apply URL."""
+    value = (job.apply_url or f"{job.company}|{job.title}|{job.location}").strip().lower()
+    return hashlib.sha256(value.encode("utf-8")).hexdigest()[:20]
+
+
+def get_email_history():
+    client = get_client(CONFIG["google_sheet"]["credentials_file"])
+    workbook = client.open(CONFIG["google_sheet"]["workbook_name"])
+    try:
+        sheet = workbook.worksheet("EmailHistory")
+    except Exception:
+        sheet = workbook.add_worksheet(title="EmailHistory", rows=5000, cols=5)
+        sheet.append_row(["Job ID", "Company", "Role", "Apply Link", "Sent At"])
+    return sheet
+
+
+def load_emailed_ids():
+    try:
+        return {str(row.get("Job ID", "")).strip() for row in get_email_history().get_all_records() if row.get("Job ID")}
+    except Exception as ex:
+        print(f"[WARNING] Email history unavailable: {ex}")
+        return set()
+
+
+def record_emailed_jobs(jobs):
+    try:
+        sheet = get_email_history()
+        stamp = datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%S UTC")
+        sheet.append_rows([[job_id(job), job.company, job.title, job.apply_url, stamp] for job in jobs], value_input_option="RAW")
+    except Exception as ex:
+        print(f"[WARNING] Could not record email history: {ex}")
 
 
 # ==========================================================
@@ -461,7 +496,11 @@ def main():
     apac_jobs = [job for job in scored_jobs if "apac" in (job.location or "").lower() or "asia pacific" in (job.location or "").lower() or "asia-pacific" in (job.location or "").lower()]
     remote_jobs = [job for job in scored_jobs if job not in india_jobs and job not in apac_jobs]
     section_limit = CONFIG.get("email_maximum_per_section", 25)
-    email_jobs = india_jobs[:section_limit] + remote_jobs[:section_limit] + apac_jobs[:section_limit]
+    emailed_ids = load_emailed_ids()
+    fresh_india = [job for job in india_jobs if job_id(job) not in emailed_ids]
+    fresh_remote = [job for job in remote_jobs if job_id(job) not in emailed_ids]
+    fresh_apac = [job for job in apac_jobs if job_id(job) not in emailed_ids]
+    email_jobs = fresh_india[:section_limit] + fresh_remote[:section_limit] + fresh_apac[:section_limit]
 
     minimum_section = CONFIG.get("email_minimum_per_section", 10)
     if len(india_jobs) < minimum_section:
@@ -499,6 +538,7 @@ def main():
             print(
                 f"[INFO] Email sent with {len(email_jobs)} top matches."
             )
+            record_emailed_jobs(email_jobs)
 
         except Exception as ex:
 
