@@ -15,6 +15,7 @@ URLS = {
     "greenhouse": "https://boards-api.greenhouse.io/v1/boards/{board}/jobs?content=true",
     "lever": "https://api.lever.co/v0/postings/{board}?mode=json",
     "ashby": "https://api.ashbyhq.com/posting-api/job-board/{board}",
+    "smartrecruiters": "https://api.smartrecruiters.com/v1/companies/{board}/postings?limit=1",
 }
 
 

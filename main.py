@@ -3,6 +3,7 @@ from config_loader import load_yaml
 from ats.greenhouse import fetch_all_jobs
 from ats.lever import fetch_lever_jobs
 from ats.ashby import fetch_ashby_jobs
+from ats.smartrecruiters import fetch_smartrecruiters_jobs
 
 from matcher import calculate
 
@@ -290,6 +291,7 @@ def collect_jobs():
             []
         )
     )
+    smartrecruiters_companies = BOARDS.get("smartrecruiters", [])
 
     print(
         "[INFO] "
@@ -312,6 +314,11 @@ def collect_jobs():
         jobs.extend(fetch_ashby_jobs(ashby_companies))
     except Exception as ex:
         print(f"[ERROR] Ashby fetch failed: {ex}")
+    print("[INFO] Fetching SmartRecruiters jobs...")
+    try:
+        jobs.extend(fetch_smartrecruiters_jobs(smartrecruiters_companies))
+    except Exception as ex:
+        print(f"[ERROR] SmartRecruiters fetch failed: {ex}")
     unique_jobs = {}
 
     for job in jobs:

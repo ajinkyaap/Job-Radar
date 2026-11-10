@@ -65,6 +65,8 @@ lever:
   - spotify
   - sysdig
   - neon
+  - levelai
+  - zimperium
   # - drivetrain
   # - boardintelligence
   # - levelai
@@ -215,6 +217,11 @@ ashby:
   - plaid
   - notion
   - cursor
+  - plotlineso
+  - sarvam
+
+smartrecruiters:
+  - Freshworks
 
 # Not represented in the three ATS groups above; do not ingest as Lever:
 # rippling — uses Rippling ATS (separate provider / endpoint)
