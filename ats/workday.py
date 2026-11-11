@@ -16,7 +16,7 @@ def fetch_workday_jobs(boards):
         company, host, tenant, site = (board.get(k, "") for k in ("company", "host", "tenant", "site"))
         url = f"https://{host}/wday/cxs/{tenant}/{site}/jobs"
         try:
-            response = requests.post(url, json={"appliedFacets": {}, "limit": 100, "offset": 0, "searchText": ""}, headers={"Content-Type": "application/json", "User-Agent": "JobRadar/1.0"}, timeout=30)
+            response = requests.post(url, json={"appliedFacets": {}, "limit": 20, "offset": 0, "searchText": ""}, headers={"Content-Type": "application/json", "Accept": "application/json", "User-Agent": "Mozilla/5.0 JobRadar/1.0"}, timeout=30)
             response.raise_for_status()
             payload = response.json()
             postings = payload.get("jobPostings", [])

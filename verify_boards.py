@@ -33,7 +33,7 @@ def check_workday(board: dict) -> tuple[str, str, int | None, str]:
     name = board.get("company", "unknown")
     url = f"https://{board['host']}/wday/cxs/{board['tenant']}/{board['site']}/jobs"
     try:
-        response = requests.post(url, json={"appliedFacets": {}, "limit": 1, "offset": 0, "searchText": ""}, timeout=15)
+        response = requests.post(url, json={"appliedFacets": {}, "limit": 20, "offset": 0, "searchText": ""}, headers={"Content-Type": "application/json", "Accept": "application/json", "User-Agent": "Mozilla/5.0 JobRadar/1.0"}, timeout=15)
         return "workday", name, response.status_code, "ok" if response.ok else response.reason
     except requests.RequestException as error:
         return "workday", name, None, str(error)

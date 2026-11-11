@@ -29,6 +29,7 @@ class WorkdayConnectorTests(unittest.TestCase):
         self.assertEqual(jobs[0].source, "Workday")
         self.assertIn("example.wd5.myworkdayjobs.com", jobs[0].apply_url)
         post.assert_called_once()
+        self.assertEqual(post.call_args.kwargs["json"]["limit"], 20)
 
     @patch("ats.workday.requests.post")
     def test_failed_board_is_isolated(self, post):
