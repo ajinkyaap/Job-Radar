@@ -1,0 +1,21 @@
+name: Evening Job Radar Retry
+on:
+  schedule:
+    # Retry shortly after the 21:00 IST slot if GitHub delays the scheduled event.
+    - cron: '45 15 * * *'
+  workflow_dispatch:
+jobs:
+  retry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt
+      - name: Write runtime secrets
+        shell: bash
+        run: |
+          printf '%s' '${{ secrets.JOB_RADAR_CONFIG_B64 }}' | base64 --decode > config.yaml
+          printf '%s' '${{ secrets.JOB_RADAR_CREDENTIALS_B64 }}' | base64 --decode > credentials.json
+      - run: python main.py

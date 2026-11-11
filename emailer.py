@@ -34,6 +34,8 @@ def create_email_html(jobs):
         skills = ", ".join(job.matched_skills or []) or "Review job description"
         role_type = getattr(job, "role_type", "") or ("Remote" if job.remote else "Role")
         friction = getattr(job, "application_friction", 0)
+        breakdown = getattr(job, "score_breakdown", {})
+        fit_note = " · ".join(f"{name.replace('_', ' ').title()}: {value:.0f}" for name, value in breakdown.items() if name in {"technical_fit", "seniority_fit", "domain_fit"})
         note = "Fresh match" if job.days_old <= 3 else "Relevant match"
         score_color = "#087f5b" if job.score >= 90 else "#b7791f" if job.score >= 80 else "#6b7280"
         age_label = "today" if job.days_old == 0 else f"{job.days_old}d ago"
@@ -46,7 +48,8 @@ def create_email_html(jobs):
             <span style="background:{score_color};color:#fff;padding:5px 9px;border-radius:14px;font-weight:700;font-size:13px">{job.score:.0f}/100</span>
           </td></tr>
           <tr><td colspan="2" style="padding:5px 18px 14px;color:#64748b;font-size:13px">
-            <b>Skills:</b> {escape(skills)} &nbsp;·&nbsp; <b>Posted:</b> {age_label} &nbsp;·&nbsp; <b>Source:</b> {escape(str(job.source))} &nbsp;·&nbsp; {note}
+            <b>Skills:</b> {escape(skills)} &nbsp;·&nbsp; <b>Posted:</b> {age_label} &nbsp;·&nbsp; <b>Source:</b> {escape(str(job.source))} &nbsp;·&nbsp; {note}<br>
+            <b>Fit:</b> {escape(fit_note or 'Profile match')}
             {('<br><span style="color:#b45309">Application may need extra verification steps</span>' if friction else '')}
           </td></tr>
           <tr><td colspan="2" style="padding:0 18px 16px"><a href="{escape(str(job.apply_url), quote=True)}" style="display:inline-block;background:#2563eb;color:#fff;text-decoration:none;padding:9px 14px;border-radius:6px;font-weight:600;font-size:13px">View opportunity →</a></td></tr>

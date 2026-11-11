@@ -6,16 +6,16 @@ from models import Job
 
 
 SKILL_GROUPS = {
-    "java": (14, ("java", "core java", "j2ee")),
-    "spring": (14, ("spring boot", "spring framework", "spring")),
-    "microservices": (12, ("microservices", "microservice")),
-    "kafka": (12, ("apache kafka", "kafka", "event-driven", "event driven")),
-    "rest APIs": (10, ("rest api", "restful api", "api development")),
-    "sql databases": (9, ("postgresql", "postgres", "mysql", "sql")),
-    "cloud/devops": (8, ("aws", "docker", "kubernetes", "jenkins", "ci/cd")),
-    "distributed systems": (8, ("distributed systems", "system design", "concurrency")),
-    "banking": (7, ("banking", "financial services", "payments", "fintech")),
-    "observability": (6, ("splunk", "grafana", "appdynamics", "production support")),
+    "java": (14, ("java", "core java", "j2ee", "jakarta ee", "jvm", "multithreading", "concurrency")),
+    "spring": (14, ("spring boot", "spring framework", "spring cloud", "spring security", "spring mvc", "hibernate")),
+    "microservices": (12, ("microservices", "microservice", "distributed services", "service-oriented")),
+    "kafka": (12, ("apache kafka", "kafka", "event-driven", "event driven", "rabbitmq", "event streaming")),
+    "rest APIs": (10, ("rest api", "restful api", "api development", "web services", "graphql")),
+    "sql databases": (9, ("postgresql", "postgres", "mysql", "oracle", "sql", "redis", "dynamodb")),
+    "cloud/devops": (8, ("aws", "gcp", "azure", "docker", "kubernetes", "jenkins", "ci/cd", "terraform")),
+    "distributed systems": (8, ("distributed systems", "system design", "high availability", "scalability", "resilient")),
+    "banking": (7, ("banking", "financial services", "payments", "fintech", "lending", "fraud", "risk", "wallet")),
+    "observability": (6, ("splunk", "grafana", "appdynamics", "prometheus", "datadog", "production support", "sre")),
 }
 
 INDIA_LOCATION_TERMS = (
@@ -25,6 +25,7 @@ INDIA_LOCATION_TERMS = (
 )
 WORLDWIDE_REMOTE_TERMS = ("worldwide", "global", "anywhere", "distributed", "work from anywhere")
 APAC_TERMS = ("apac", "asia pacific", "asia-pacific")
+ADDITIONAL_TITLE_TERMS = ("payments engineer", "api engineer", "integration engineer", "core services engineer", "distributed systems engineer", "platform developer", "production engineer")
 REMOTE_TERMS = ("remote", "remote-first", "work from home", "work remotely")
 COUNTRY_TERMS = (
     "us", "usa", "united states", "canada", "uk", "united kingdom", "ireland",
@@ -102,7 +103,7 @@ def calculate(job: Job, profile: dict) -> Job:
     if _contains_any(title, profile["excluded_title_terms"]):
         return _reject(job)
 
-    if not _contains_any(title, profile["target_title_terms"]):
+    if not (_contains_any(title, profile["target_title_terms"]) or _contains_any(title, ADDITIONAL_TITLE_TERMS)):
         return _reject(job)
 
     experience = _experience_fit(text, float(profile["experience_years"]))
@@ -125,6 +126,8 @@ def calculate(job: Job, profile: dict) -> Job:
     job.application_friction = sum(1 for term in friction_terms if term in text)
 
     title_score = 100
+    seniority_score = _seniority_fit(text, float(profile["experience_years"]))
+    domain_score = 100 if any(term in text for term in ("payments", "banking", "fintech", "financial services", "lending")) else 60
     location_score = _location_score(location)
     # Freshness is deliberately prominent: competitive roles are most actionable
     # during the first few days after publication.
@@ -139,7 +142,8 @@ def calculate(job: Job, profile: dict) -> Job:
     final = (
         skill_score * 0.40
         + title_score * 0.15
-        + experience * 0.15
+        + experience * 0.10
+        + seniority_score * 0.05
         + location_score * 0.05
         + freshness_score * 0.20
         + company_score * 0.05
@@ -152,6 +156,14 @@ def calculate(job: Job, profile: dict) -> Job:
         final -= 20
 
     job.score = round(min(final, 100), 2)
+    job.domain_score = domain_score
+    job.score_breakdown = {
+        "technical_fit": round(skill_score, 1),
+        "seniority_fit": round(seniority_score, 1),
+        "domain_fit": round(domain_score, 1),
+        "location_fit": round(location_score, 1),
+        "freshness": round(freshness_score, 1),
+    }
     job.matched_skills = matched
     job.priority = "HIGH" if job.score >= 80 else "MEDIUM" if job.score >= 65 else "LOW"
     return job
@@ -176,4 +188,20 @@ def _skill_coverage_score(groups: int) -> int:
         return 40
     if groups == 1:
         return 15
+    return 0
+
+
+def _seniority_fit(text: str, target_years: float) -> float:
+    if any(term in text for term in ("staff engineer", "principal engineer", "architect", "director", "vice president")):
+        return 0
+    years = [float(value) for value in re.findall(r"(\d+(?:\.\d+)?)\s*\+?\s*(?:years|yrs)", text)]
+    if not years:
+        return 70
+    required = max(years)
+    if required <= target_years + 0.5:
+        return 100
+    if required <= target_years + 1.5:
+        return 75
+    if required <= target_years + 2.5:
+        return 45
     return 0

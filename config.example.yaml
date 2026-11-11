@@ -32,6 +32,13 @@ matching:
     - microservices engineer
     - site reliability engineer
     - sre
+    - payments engineer
+    - api engineer
+    - integration engineer
+    - core services engineer
+    - distributed systems engineer
+    - platform developer
+    - production engineer
   excluded_title_terms:
     - intern
     - internship
