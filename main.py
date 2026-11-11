@@ -501,6 +501,7 @@ def main():
     fresh_remote = [job for job in remote_jobs if job_id(job) not in emailed_ids]
     fresh_apac = [job for job in apac_jobs if job_id(job) not in emailed_ids]
     email_jobs = fresh_india[:section_limit] + fresh_remote[:section_limit] + fresh_apac[:section_limit]
+    print(f"[INFO] Qualifying jobs: {len(scored_jobs)}; not previously emailed: {len(fresh_india) + len(fresh_remote) + len(fresh_apac)}")
 
     minimum_section = CONFIG.get("email_minimum_per_section", 10)
     if len(india_jobs) < minimum_section:
@@ -547,8 +548,7 @@ def main():
             )
 
     else:
-
-        print("[INFO] No qualifying jobs found for email.")
+        print("[INFO] No new qualifying jobs found for email; existing matches may already be recorded in EmailHistory.")
 
     print("=" * 60)
 
