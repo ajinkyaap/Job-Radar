@@ -242,4 +242,8 @@ priority_companies:
   - Coinbase
   - Databricks
 
-workday: []
+workday:
+  - company: Mastercard
+    host: mastercard.wd1.myworkdayjobs.com
+    tenant: mastercard
+    site: CorporateCareers
