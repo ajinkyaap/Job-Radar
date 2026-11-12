@@ -1,6 +1,7 @@
 """Allow scheduled scans only during approved Asia/Kolkata windows."""
 from datetime import datetime
 from zoneinfo import ZoneInfo
+from pathlib import Path
 
 now = datetime.now(ZoneInfo("Asia/Kolkata"))
 minutes = now.hour * 60 + now.minute
@@ -9,3 +10,4 @@ allowed = any(abs(minutes - window) <= 10 for window in windows)
 print(f"[INFO] India time: {now:%Y-%m-%d %H:%M:%S %Z}; approved window: {allowed}")
 if not allowed:
     raise SystemExit(0)
+Path(".schedule_allowed").write_text("approved", encoding="utf-8")

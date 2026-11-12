@@ -21,3 +21,4 @@ jobs:
       - name: Enforce India schedule window
         run: python schedule_guard.py
       - run: python main.py
+        if: hashFiles('.schedule_allowed') != ''
