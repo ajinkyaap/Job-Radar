@@ -10,6 +10,13 @@ def fetch_jooble_jobs(queries, max_results=20):
     if not key:
         print("[INFO] Jooble skipped: JOOBLE_API_KEY not configured")
         return []
+    if not queries:
+        queries = [
+            {"keywords": "Java Spring Boot backend engineer", "location": "India"},
+            {"keywords": "Java microservices Kafka engineer", "location": "Pune, India"},
+            {"keywords": "Java backend payments engineer", "location": "Bengaluru, India"},
+            {"keywords": "Java backend software engineer", "location": "Hyderabad, India"},
+        ]
     jobs = []
     for query in queries:
         try:
