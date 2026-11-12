@@ -21,4 +21,6 @@ jobs:
         run: |
           printf '%s' '${{ secrets.JOB_RADAR_CONFIG_B64 }}' | base64 --decode > config.yaml
           printf '%s' '${{ secrets.JOB_RADAR_CREDENTIALS_B64 }}' | base64 --decode > credentials.json
+      - name: Enforce India schedule window
+        run: python schedule_guard.py
       - run: python main.py
