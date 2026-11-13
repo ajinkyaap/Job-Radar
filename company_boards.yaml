@@ -223,6 +223,7 @@ ashby:
 
 smartrecruiters:
   - Freshworks
+  - NielsenIQ
 
 # Eightfold public PCS-X boards. These are kept separate because the tenant
 # host and employer domain are both required by the public search endpoint.

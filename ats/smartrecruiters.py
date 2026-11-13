@@ -10,10 +10,20 @@ def fetch_smartrecruiters_jobs(companies):
     jobs = []
     for company in companies:
         try:
-            url = f"https://api.smartrecruiters.com/v1/companies/{company}/postings?limit=100"
-            response = requests.get(url, timeout=30)
-            response.raise_for_status()
-            postings = response.json().get("content", [])
+            postings = []
+            offset = 0
+            page_size = 100
+            while True:
+                url = f"https://api.smartrecruiters.com/v1/companies/{company}/postings?limit={page_size}&offset={offset}"
+                response = requests.get(url, timeout=30)
+                response.raise_for_status()
+                payload = response.json()
+                page = payload.get("content", [])
+                postings.extend(page)
+                total = int(payload.get("totalFound", len(postings)) or len(postings))
+                if not page or len(postings) >= total or len(page) < page_size:
+                    break
+                offset += page_size
             print(f"[INFO] SmartRecruiters {company}: {len(postings)} jobs")
             for item in postings:
                 loc = location_text(item.get("location"))
