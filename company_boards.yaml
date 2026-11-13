@@ -224,6 +224,28 @@ ashby:
 smartrecruiters:
   - Freshworks
 
+# Eightfold public PCS-X boards. These are kept separate because the tenant
+# host and employer domain are both required by the public search endpoint.
+eightfold:
+  - company: Microsoft
+    host: apply.careers.microsoft.com
+    domain: microsoft.com
+  - company: Qualcomm
+    host: qualcomm.eightfold.ai
+    domain: qualcomm.com
+  - company: Hewlett Packard Enterprise
+    host: hp.eightfold.ai
+    domain: hp.com
+  - company: Starbucks
+    host: starbucks.eightfold.ai
+    domain: starbucks.com
+  - company: Ford
+    host: ford.eightfold.ai
+    domain: ford.com
+  - company: Lockheed Martin
+    host: lockheedmartin.eightfold.ai
+    domain: lockheedmartin.com
+
 # Not represented in the three ATS groups above; do not ingest as Lever:
 # rippling — uses Rippling ATS (separate provider / endpoint)
 # netflix — uses its own Netflix jobs platform
