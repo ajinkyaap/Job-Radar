@@ -508,6 +508,24 @@ def main():
     fresh_remote = [job for job in remote_jobs if job_id(job) not in emailed_ids]
     fresh_apac = [job for job in apac_jobs if job_id(job) not in emailed_ids]
     email_jobs = fresh_india[:section_limit] + fresh_remote[:section_limit] + fresh_apac[:section_limit]
+    fallback_used = False
+    if not email_jobs:
+        # If every qualifying match was already emailed, provide a useful
+        # fallback rather than sending nothing. Re-score all fetched jobs so
+        # near-matches below the normal threshold can be considered. This also
+        # handles the case where score_jobs returned zero qualifying jobs.
+        near_matches = []
+        for candidate in all_jobs:
+            try:
+                near = calculate(candidate, CONFIG["matching"])
+                if near.score > 0 and job_id(near) not in emailed_ids:
+                    near_matches.append(near)
+            except Exception:
+                continue
+        email_jobs = sorted(near_matches, key=lambda job: job.score, reverse=True)[:20]
+        fallback_used = bool(email_jobs)
+        if fallback_used:
+            print("[INFO] No fresh 85+ matches; using top 20 fresh near-matches.")
     print(f"[INFO] Qualifying jobs: {len(scored_jobs)}; not previously emailed: {len(fresh_india) + len(fresh_remote) + len(fresh_apac)}")
 
     minimum_section = CONFIG.get("email_minimum_per_section", 10)
@@ -543,9 +561,8 @@ def main():
                 jobs=email_jobs
             )
 
-            print(
-                f"[INFO] Email sent with {len(email_jobs)} top matches."
-            )
+            label = "fallback near-matches" if fallback_used else "new qualifying matches"
+            print(f"[INFO] Email sent with {len(email_jobs)} {label}.")
             record_emailed_jobs(email_jobs)
 
         except Exception as ex:
