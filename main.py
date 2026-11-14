@@ -20,6 +20,7 @@ from sheets import (
 from datetime import datetime
 from datetime import UTC
 import hashlib
+from pathlib import Path
 
 
 CONFIG = load_yaml("config.yaml")
@@ -27,6 +28,20 @@ CONFIG = load_yaml("config.yaml")
 BOARDS = load_yaml(
     "company_boards.yaml"
 )
+
+# Optional generated expansion registry. It is intentionally separate from the
+# curated registry so it can be refreshed without editing source code.
+expanded_path = Path("company_boards_expanded.yaml")
+if expanded_path.exists():
+    expanded = load_yaml(str(expanded_path)) or {}
+    for provider in ("greenhouse", "lever", "ashby"):
+        existing = BOARDS.setdefault(provider, [])
+        seen = {str(item).lower() for item in existing}
+        for item in expanded.get(provider, []):
+            slug = item.get("slug") if isinstance(item, dict) else item
+            if slug and str(slug).lower() not in seen:
+                existing.append(slug)
+                seen.add(str(slug).lower())
 
 # ==========================================================
 # SHEETS

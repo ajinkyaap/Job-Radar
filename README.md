@@ -187,3 +187,18 @@ Workday support uses each employer's public CXS jobs endpoint. Add only verified
 Google discovery is an optional supplement, not a replacement for ATS feeds. Configure `google_search` in `config.yaml` and set `GOOGLE_SEARCH_API_KEY` plus `GOOGLE_SEARCH_CX` as runtime secrets. It uses Google's Programmable Search JSON API, filters to career/job URLs, fetches the public page, and sends candidates through the same matcher. Without those secrets it safely skips discovery.
 
 Shortlists are grouped into India-based roles and remote/worldwide roles. Remote roles receive the same location score as India roles; work authorisation and sponsorship are shown separately because a remote label does not guarantee eligibility in the candidate's country.
+# Expanding the company registry
+
+The repository includes a generated expansion registry with 500 additional
+public Greenhouse, Lever, and Ashby boards. Refresh it with:
+
+```powershell
+python expand_company_registry.py --target 500
+```
+
+The source is the LastRound AI ATS Company Directory (CC BY 4.0). Boards are
+still treated as best-effort: companies can change ATS providers or close their
+boards, and each connector isolates failures so one dead board cannot stop a
+scheduled run. Job Radar's matcher filters the expanded feed to software-
+engineering roles and the configured India/APAC/worldwide-remote criteria.
+
