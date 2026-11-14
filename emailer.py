@@ -90,14 +90,16 @@ def send_email(
     jobs
 ):
 
-    if not jobs:
-        return
-
-    html = create_email_html(jobs)
+    if jobs:
+        html = create_email_html(jobs)
+        subject = f"[Job Radar] Top {len(jobs)} application-ready matches"
+    else:
+        html = """<html><body style='font-family:Arial,sans-serif;background:#eef4ff;padding:32px'><div style='max-width:680px;margin:auto;background:white;border-radius:12px;padding:28px'><h1 style='color:#172554'>Job Radar</h1><p>Sorry, no new qualifying jobs scoring 85 or above were found in this run.</p><p style='color:#64748b'>We will check again during the next scheduled scan.</p></div></body></html>"""
+        subject = "[Job Radar] No qualifying jobs found"
 
     msg = MIMEMultipart()
 
-    msg["Subject"] = f"[Job Radar] Top {len(jobs)} application-ready matches"
+    msg["Subject"] = subject
 
     msg["From"] = sender
 

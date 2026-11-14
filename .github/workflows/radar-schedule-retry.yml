@@ -1,0 +1,29 @@
+name: Job Radar Schedule Retry
+on:
+  schedule:
+    # GitHub can delay scheduled events. These run 10 minutes after each IST
+    # target while remaining inside schedule_guard's approved window.
+    - cron: '40 4,7,15 * * *'
+jobs:
+  retry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    concurrency:
+      group: job-radar-scan
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt
+      - name: Write runtime secrets
+        shell: bash
+        run: |
+          printf '%s' '${{ secrets.JOB_RADAR_CONFIG_B64 }}' | base64 --decode > config.yaml
+          printf '%s' '${{ secrets.JOB_RADAR_CREDENTIALS_B64 }}' | base64 --decode > credentials.json
+      - name: Enforce India schedule window
+        run: python schedule_guard.py
+      - run: python main.py
+        if: hashFiles('.schedule_allowed') != ''
+        env:
+          JOOBLE_API_KEY: ${{ secrets.JOOBLE_API_KEY }}

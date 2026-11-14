@@ -1,6 +1,6 @@
 # Copy to config.yaml and provide real credentials locally. Do not commit config.yaml.
-minimum_score: 72
-minimum_remote_score: 72
+minimum_score: 85
+minimum_remote_score: 85
 email_minimum_per_section: 10
 email_maximum_per_section: 25
 email_top_jobs_limit: 25
