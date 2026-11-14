@@ -246,6 +246,54 @@ eightfold:
   - company: Lockheed Martin
     host: lockheedmartin.eightfold.ai
     domain: lockheedmartin.com
+  - company: Citi
+    host: citi.eightfold.ai
+    domain: citi.com
+  - company: Micron Technology
+    host: micron.eightfold.ai
+    domain: micron.com
+  - company: NVIDIA
+    host: nvidia.eightfold.ai
+    domain: nvidia.com
+  - company: Eaton
+    host: eaton.eightfold.ai
+    domain: eaton.com
+  - company: Applied Materials
+    host: appliedmaterials.eightfold.ai
+    domain: appliedmaterials.com
+  - company: Vodafone
+    host: vodafone.eightfold.ai
+    domain: vodafone.com
+  - company: HSBC
+    host: hsbc.eightfold.ai
+    domain: hsbc.com
+  - company: Morgan Stanley
+    host: morganstanley.eightfold.ai
+    domain: morganstanley.com
+  - company: Lam Research
+    host: lamresearch.eightfold.ai
+    domain: lamresearch.com
+  - company: Ericsson
+    host: ericsson.eightfold.ai
+    domain: ericsson.com
+  - company: Autodesk
+    host: autodesk.eightfold.ai
+    domain: autodesk.com
+  - company: NetApp
+    host: netapp.eightfold.ai
+    domain: netapp.com
+  - company: John Deere
+    host: johndeere.eightfold.ai
+    domain: johndeere.com
+  - company: PayPal
+    host: paypal.eightfold.ai
+    domain: paypal.com
+  - company: Amdocs
+    host: amdocs.eightfold.ai
+    domain: amdocs.com
+  - company: Twilio
+    host: twilio.eightfold.ai
+    domain: twilio.com
 
 # Not represented in the three ATS groups above; do not ingest as Lever:
 # rippling — uses Rippling ATS (separate provider / endpoint)
