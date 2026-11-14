@@ -14,6 +14,13 @@ google_search:
     - "site:jobs.ashbyhq.com Java backend engineer India"
     - "site:careers.smartrecruiters.com Java backend engineer India"
 
+# Proprietary career sites for priority fintech and banking employers. This
+# source uses Google Programmable Search when GOOGLE_SEARCH_API_KEY/CX are set.
+priority_company_discovery:
+  max_results_per_query: 3
+  role_terms: '"software engineer" OR "backend engineer" OR "Java engineer"'
+  locations: "India OR Bengaluru OR Bangalore OR Hyderabad OR Pune OR remote"
+
 matching:
   experience_years: 4.5
   max_job_age_days: 21

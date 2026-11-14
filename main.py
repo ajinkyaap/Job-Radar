@@ -8,6 +8,7 @@ from ats.workday import fetch_workday_jobs
 from ats.google_search import fetch_google_jobs
 from ats.jooble import fetch_jooble_jobs
 from ats.eightfold import fetch_eightfold_jobs
+from priority_companies import fetch_priority_jobs
 
 from matcher import calculate
 
@@ -392,6 +393,11 @@ def collect_jobs():
         jobs.extend(fetch_google_jobs(google_config.get("queries", []), google_config.get("max_results_per_query", 10)))
     except Exception as ex:
         print(f"[ERROR] Google discovery failed: {ex}")
+    print("[INFO] Fetching priority fintech and banking career pages...")
+    try:
+        jobs.extend(fetch_priority_jobs(CONFIG))
+    except Exception as ex:
+        print(f"[ERROR] Priority-company discovery failed: {ex}")
     print("[INFO] Fetching Jooble jobs...")
     try:
         jobs.extend(fetch_jooble_jobs(jooble_config.get("queries", []), jooble_config.get("max_results_per_query", 20)))
