@@ -18,7 +18,11 @@ def fetch_workday_jobs(boards):
         try:
             response = requests.post(url, json={"appliedFacets": {}, "limit": 20, "offset": 0, "searchText": ""}, headers={"Content-Type": "application/json", "Accept": "application/json", "User-Agent": "Mozilla/5.0 JobRadar/1.0"}, timeout=30)
             response.raise_for_status()
-            payload = response.json()
+            try:
+                payload = response.json()
+            except ValueError:
+                print(f"Workday Error {company}: endpoint returned non-JSON content (HTTP {response.status_code})")
+                continue
             postings = payload.get("jobPostings", [])
             print(f"[INFO] Workday {company}: {len(postings)} jobs")
             for item in postings:

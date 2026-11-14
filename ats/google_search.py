@@ -60,5 +60,8 @@ def fetch_google_jobs(queries: list[str], max_results: int = 10) -> list[Job]:
             status = getattr(getattr(ex, "response", None), "status_code", None)
             suffix = f" (HTTP {status})" if status else ""
             print(f"Google discovery error for configured query{suffix}")
+            if status in {401, 403}:
+                print("[WARNING] Google discovery disabled for this run; check API access, key restrictions, and CX.")
+                break
     print(f"[INFO] Google discovery: {len(jobs)} candidate pages")
     return jobs

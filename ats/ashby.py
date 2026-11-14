@@ -17,8 +17,14 @@ def fetch_organization_jobs(organization):
             location = location_text(item.get("location"))
             posted_at = parse_date(item.get("publishedAt") or item.get("createdAt"))
             jobs.append(Job(company=organization, title=item.get("title", ""), location=location, description=description, apply_url=item.get("applyUrl") or item.get("jobUrl", ""), posted_at=posted_at, days_old=calculate_days_old(posted_at), remote=is_remote(description, location), source="Ashby"))
+    except requests.HTTPError as ex:
+        status = getattr(getattr(ex, "response", None), "status_code", None)
+        if status == 404:
+            print(f"[INFO] Ashby board unavailable: {organization}")
+        else:
+            print(f"Ashby Error {organization}: HTTP {status or 'error'}")
     except Exception as ex:
-        print(f"Ashby Error {organization}: {ex}")
+        print(f"Ashby Error {organization}: {type(ex).__name__}")
     return jobs
 
 
