@@ -55,6 +55,10 @@ def fetch_google_jobs(queries: list[str], max_results: int = 10) -> list[Job]:
                 location = "India" if re.search(r"\bindia\b|bengaluru|bangalore|hyderabad|pune|mumbai", query, re.I) else "Remote" if re.search(r"\bremote\b|worldwide", query, re.I) else ""
                 jobs.append(Job(company=company, title=title, location=location, description=page_text, apply_url=url, posted_at=posted, days_old=age, remote=is_remote(page_text, location), source="Google Jobs"))
         except requests.RequestException as ex:
-            print(f"Google discovery error ({query}): {ex}")
+            # Do not print the exception URL: requests includes the `key`
+            # query parameter, which would leak the Google API credential.
+            status = getattr(getattr(ex, "response", None), "status_code", None)
+            suffix = f" (HTTP {status})" if status else ""
+            print(f"Google discovery error for configured query{suffix}")
     print(f"[INFO] Google discovery: {len(jobs)} candidate pages")
     return jobs
