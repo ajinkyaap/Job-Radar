@@ -335,3 +335,24 @@ oracle:
   - company: Diebold Nixdorf
     host: eeug.fa.us6.oraclecloud.com
     site: CX_1
+  - company: Hilton
+    host: efet.fa.us2.oraclecloud.com
+    site: CX_1009
+  - company: Vertiv
+    host: egup.fa.us2.oraclecloud.com
+    site: CX
+  - company: IHG Hotels & Resorts
+    host: fa-evax-saasfaprod1.fa.ocs.oraclecloud.com
+    site: CX
+  - company: Sherwin-Williams
+    host: ejhp.fa.us6.oraclecloud.com
+    site: CX_2
+  - company: EXL
+    host: fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com
+    site: CX
+  - company: Startek
+    host: fa-evuf-saasfaprod1.fa.ocs.oraclecloud.com
+    site: CX_1
+  - company: Aster DM Healthcare
+    host: hcdt.fa.us2.oraclecloud.com
+    site: CX
