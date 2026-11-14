@@ -318,3 +318,8 @@ workday:
     host: mastercard.wd1.myworkdayjobs.com
     tenant: mastercard
     site: CorporateCareers
+
+oracle:
+  - company: JPMorgan Chase
+    host: jpmc.fa.oraclecloud.com
+    site: CX_1001

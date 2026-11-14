@@ -6,6 +6,7 @@ from ats.ashby import fetch_ashby_jobs
 from ats.smartrecruiters import fetch_smartrecruiters_jobs
 from ats.workday import fetch_workday_jobs
 from ats.google_search import fetch_google_jobs
+from ats.oraclecloud import fetch_oracle_jobs
 from ats.jooble import fetch_jooble_jobs
 from ats.eightfold import fetch_eightfold_jobs
 from priority_companies import fetch_priority_jobs
@@ -348,6 +349,7 @@ def collect_jobs():
     )
     smartrecruiters_companies = BOARDS.get("smartrecruiters", [])
     workday_boards = BOARDS.get("workday", [])
+    oracle_boards = BOARDS.get("oracle", [])
     eightfold_boards = BOARDS.get("eightfold", [])
     google_config = CONFIG.get("google_search", {})
     jooble_config = CONFIG.get("jooble", {})
@@ -383,6 +385,11 @@ def collect_jobs():
         jobs.extend(fetch_workday_jobs(workday_boards))
     except Exception as ex:
         print(f"[ERROR] Workday fetch failed: {ex}")
+    print("[INFO] Fetching Oracle Recruiting Cloud jobs...")
+    try:
+        jobs.extend(fetch_oracle_jobs(oracle_boards))
+    except Exception as ex:
+        print(f"[ERROR] Oracle fetch failed: {ex}")
     print("[INFO] Fetching Eightfold jobs...")
     try:
         jobs.extend(fetch_eightfold_jobs(eightfold_boards))
