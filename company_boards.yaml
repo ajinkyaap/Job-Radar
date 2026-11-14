@@ -323,3 +323,15 @@ oracle:
   - company: JPMorgan Chase
     host: jpmc.fa.oraclecloud.com
     site: CX_1001
+  - company: Ford
+    host: efds.fa.em5.oraclecloud.com
+    site: CX_1
+  - company: Macy's
+    host: ebwh.fa.us2.oraclecloud.com
+    site: CX_1001
+  - company: Oracle
+    host: eeho.fa.us2.oraclecloud.com
+    site: CX_45001
+  - company: Diebold Nixdorf
+    host: eeug.fa.us6.oraclecloud.com
+    site: CX_1
