@@ -30,16 +30,25 @@ def fetch_eightfold_jobs(boards, timeout=30):
         if not host or not domain:
             print(f"[WARNING] Eightfold {company}: missing host or domain")
             continue
-        params = {"domain": domain, "query": "", "location": "", "start": 0}
         try:
-            response = requests.get(
-                f"https://{host}/api/pcsx/search?{urlencode(params)}",
-                headers={"Accept": "application/json", "User-Agent": "Mozilla/5.0 JobRadar/1.0"},
-                timeout=timeout,
-            )
-            response.raise_for_status()
-            payload = response.json()
-            positions = (payload.get("data") or {}).get("positions", [])
+            positions = []
+            start = 0
+            total = None
+            while True:
+                params = {"domain": domain, "query": "", "location": "", "start": start}
+                response = requests.get(
+                    f"https://{host}/api/pcsx/search?{urlencode(params)}",
+                    headers={"Accept": "application/json", "User-Agent": "Mozilla/5.0 JobRadar/1.0"},
+                    timeout=timeout,
+                )
+                response.raise_for_status()
+                data = response.json().get("data") or {}
+                page = data.get("positions", [])
+                positions.extend(page)
+                total = int(data.get("count") or len(positions))
+                if not page or len(positions) >= total or len(page) < 10:
+                    break
+                start += len(page)
             print(f"[INFO] Eightfold {company}: {len(positions)} jobs")
             for item in positions:
                 location = location_text(item.get("locations") or item.get("location"))
