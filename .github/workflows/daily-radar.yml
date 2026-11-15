@@ -5,6 +5,8 @@ on:
     - cron: '30 4,7,15 * * *'
     # TEMPORARY TEST: 13:35 IST on 15 Nov 2026 = 08:05 UTC.
     - cron: '5 8 * * *'
+    # TEMPORARY TEST: 13:45 IST on 15 Nov 2026 = 08:15 UTC.
+    - cron: '15 8 * * *'
   workflow_dispatch:
 jobs:
   scan:
