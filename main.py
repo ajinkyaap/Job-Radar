@@ -23,6 +23,7 @@ from sheets import (
 from datetime import datetime
 from datetime import UTC
 import hashlib
+import os
 from pathlib import Path
 
 
@@ -190,6 +191,19 @@ def load_existing_keys(
         keys.add(key)
 
     return keys
+
+
+def load_seen_job_ids(worksheet):
+    """Return stable IDs for jobs already stored in the radar sheet."""
+    seen = set()
+    try:
+        for row in worksheet.get_all_records():
+            apply_url = str(row.get("Apply Link", "")).strip().lower()
+            if apply_url:
+                seen.add(hashlib.sha256(apply_url.encode("utf-8")).hexdigest()[:20])
+    except Exception as ex:
+        print(f"[WARNING] Parsed-job history unavailable: {ex}")
+    return seen
 
 
 # ==========================================================
@@ -518,15 +532,20 @@ def main():
     f"{len(all_jobs)}"
 )
 
-    scored_jobs = score_jobs(
-        all_jobs
-    )
-
-
-
     worksheet = (
         get_or_create_sheet()
     )
+
+    # Only score jobs that have not already been parsed/stored. Set
+    # JOB_RADAR_FULL_REFRESH=1 for an intentional complete re-scan.
+    seen_ids = load_seen_job_ids(worksheet)
+    if os.getenv("JOB_RADAR_FULL_REFRESH") == "1":
+        new_candidates = all_jobs
+    else:
+        new_candidates = [job for job in all_jobs if job_id(job) not in seen_ids]
+    print(f"[INFO] New candidates to score: {len(new_candidates)}; already parsed: {len(all_jobs) - len(new_candidates)}")
+
+    scored_jobs = score_jobs(new_candidates)
 
     new_jobs = persist_jobs(
         worksheet,
